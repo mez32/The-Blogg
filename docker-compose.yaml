@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: blogg-db
+    hostname: db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: "the-blogg"
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./prisma/mysql:/var/lib/mysql
+  api:
+    container_name: the-blogg
+    hostname: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_DATABASE: the-blogg
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3000:3000
+      - 5555:5555
+    volumes:
+      - .:/app

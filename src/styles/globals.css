@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #282828;
+}
+
+main {
+  min-height: calc(100vh - 4.25rem);
+  margin-top: 4.5rem;
+}
+
+@layer base {
+  .my-link a {
+    color: black;
+  }
+
+  .my-link a:hover {
+    color: white;
+  }
+
+  .login-btn {
+    color: black;
+    border: 1px solid black;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: #707070;
+  }
+
+  .login-btn:hover {
+    color: white;
+    background: #5604c8;
+    border: 1px solid white;
+  }
+}
