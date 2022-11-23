@@ -1,5 +1,6 @@
 import React from "react";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const StartNew = () => {
   const { data: session } = useSession();
@@ -11,9 +12,13 @@ const StartNew = () => {
           Start your new Blogg post...
         </h2>
         {session ? (
-          <button className="login-btn">New Post</button>
+          <Link href="/posts/new">
+            <button className="login-btn">New Post</button>
+          </Link>
         ) : (
-          <button className="login-btn">Have to login first</button>
+          <button className="login-btn" onClick={() => signIn()}>
+            Have to login first
+          </button>
         )}
       </div>
     </div>

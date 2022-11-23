@@ -21,16 +21,32 @@ main {
   }
 
   .login-btn {
-    color: black;
-    border: 1px solid black;
+    color: #ddd3d3;
+    border: 1px solid #ddd3d3;
     padding: 0.5rem;
     border-radius: 8px;
-    background: #707070;
+    background: #5604c8;
   }
 
   .login-btn:hover {
-    color: white;
-    background: #5604c8;
-    border: 1px solid white;
+    color: black;
+    background: #7d2feb;
+    border: 1px solid black;
+  }
+
+  .login-btn:disabled {
+    color: #232222;
+    border: 1px solid #2c2929;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: #676363;
+  }
+
+  .form-error {
+    border: 1px solid red;
+  }
+
+  .error-text {
+    color: rgb(138, 25, 25);
   }
 }

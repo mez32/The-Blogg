@@ -1,12 +1,33 @@
-import { type NextPage } from "next";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import StartNew from "../components/StartNew";
+import { prisma } from "../server/db/client";
 
-const Home: NextPage = () => {
-  const { data: session } = useSession();
+interface User {
+  id: string;
+  name: string | null;
+}
+
+interface Posts {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  userId: string;
+  updatedAt?: Date;
+  user: User;
+}
+
+const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
+
+  useEffect(() => {
+    const postsList: Posts[] = JSON.parse(posts);
+    setListOfPosts(postsList);
+  }, []);
 
   return (
     <>
@@ -20,11 +41,39 @@ const Home: NextPage = () => {
       <main>
         <StartNew />
         <hr className="m-auto w-2/3" />
-        <Post />
-        <Post />
+        <>
+          {listOfPosts.map((post) => {
+            return (
+              <Post
+                key={post.id}
+                title={post.title}
+                content={post.content}
+                date={post.createdAt}
+                name={post.user.name!}
+              />
+            );
+          })}
+        </>
       </main>
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const posts = await prisma.post.findMany({
+    include: {
+      user: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    },
+  });
+  const newPosts = JSON.stringify(posts);
+  return {
+    props: { posts: newPosts },
+  };
 };
 
 export default Home;
