@@ -67,7 +67,7 @@ model Post {
   user      User      @relation(fields: [userId], references: [id])
   userId    String
   title     String
-  content   String
+  content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

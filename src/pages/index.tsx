@@ -40,7 +40,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
       <main>
         <StartNew />
-        <hr className="m-auto w-2/3" />
+        <hr className="min-w-lg m-auto w-11/12 xl:max-w-6xl" />
         <>
           {listOfPosts.map((post) => {
             return (
@@ -50,6 +50,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 content={post.content}
                 date={post.createdAt}
                 name={post.user.name!}
+                id={post.user.id}
               />
             );
           })}

@@ -21,17 +21,17 @@ main {
   }
 
   .login-btn {
-    color: #ddd3d3;
-    border: 1px solid #ddd3d3;
+    color: black;
+    border: 1px solid black;
     padding: 0.5rem;
     border-radius: 8px;
     background: #5604c8;
   }
 
   .login-btn:hover {
-    color: black;
-    background: #7d2feb;
-    border: 1px solid black;
+    color: #b4a8a8;
+    border: 1px solid #b4a8a8;
+    background: #5106ba;
   }
 
   .login-btn:disabled {
@@ -48,5 +48,39 @@ main {
 
   .error-text {
     color: rgb(138, 25, 25);
+  }
+
+  @media (min-width: 47rem) {
+    .mobile-wrapper {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 47rem) {
+    .main-nav {
+      display: none !important;
+    }
+
+    .toggle-button {
+      width: 3rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding-top: 0;
+      padding-bottom: 0;
+      vertical-align: middle;
+    }
+
+    .toggle-button:focus {
+      outline: none;
+    }
+
+    .toggle-button__bar {
+      width: 100%;
+      height: 0.2rem;
+      background: black;
+      display: block;
+      margin: 0.6rem 0;
+    }
   }
 }
