@@ -9,6 +9,7 @@ import { prisma } from "../../../server/db/client";
 import Head from "next/head";
 import Post from "../../../components/Post";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface StaticPathParams extends ParsedUrlQuery {
   id: string;
@@ -31,11 +32,14 @@ interface Posts {
 
 interface PageProps {
   posts: string;
+  id: string;
 }
 
 const ShowPosts = ({
   posts,
+  id,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data: session } = useSession();
   const [postsList, setPostsList] = useState<Posts[]>([]);
 
   useEffect(() => {
@@ -58,9 +62,11 @@ const ShowPosts = ({
             <h2 className="mb-4 text-3xl font-medium leading-tight">
               {`${postsList[0]?.user.name}'s Posts`}
             </h2>
-            <Link href="/posts/new">
-              <button className="login-btn">Create a new post</button>
-            </Link>
+            {session?.user?.id === id && (
+              <Link href="/posts/new">
+                <button className="login-btn">Create a new post</button>
+              </Link>
+            )}
           </div>
         </div>
         <hr className="min-w-lg m-auto w-11/12 xl:max-w-6xl" />
@@ -122,6 +128,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       posts,
+      id: userId,
     },
   };
 };

@@ -1,5 +1,4 @@
-import { InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
-import { useSession } from "next-auth/react";
+import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
@@ -11,6 +10,12 @@ interface User {
   name: string | null;
 }
 
+interface Like {
+  id: string;
+  postId: string;
+  userId: string;
+}
+
 interface Posts {
   id: string;
   title: string;
@@ -19,11 +24,15 @@ interface Posts {
   userId: string;
   updatedAt?: Date;
   user: User;
+  likes: Like[];
+  _count: {
+    likes: number;
+  };
 }
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
-
+  console.log(listOfPosts);
   useEffect(() => {
     const postsList: Posts[] = JSON.parse(posts);
     setListOfPosts(postsList);
@@ -50,7 +59,10 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 content={post.content}
                 date={post.createdAt}
                 name={post.user.name!}
-                id={post.user.id}
+                userId={post.user.id}
+                id={post.id}
+                likes={post.likes}
+                numOfLikes={post._count.likes}
               />
             );
           })}
@@ -67,6 +79,12 @@ export const getStaticProps = async () => {
         select: {
           name: true,
           id: true,
+        },
+      },
+      likes: true,
+      _count: {
+        select: {
+          likes: true,
         },
       },
     },

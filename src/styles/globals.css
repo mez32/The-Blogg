@@ -16,7 +16,8 @@ main {
     color: black;
   }
 
-  .my-link a:hover {
+  .my-link a:hover,
+  .my-link a:active {
     color: white;
   }
 
@@ -28,7 +29,8 @@ main {
     background: #5604c8;
   }
 
-  .login-btn:hover {
+  .login-btn:hover,
+  .login-btn:active {
     color: #b4a8a8;
     border: 1px solid #b4a8a8;
     background: #5106ba;
@@ -40,6 +42,22 @@ main {
     padding: 0.5rem;
     border-radius: 8px;
     background: #676363;
+  }
+
+  .like-btn {
+    background: #5604c8;
+    border: 1px solid black;
+    color: black;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    padding: 0.4rem;
+  }
+
+  .like-btn:hover,
+  .like-btn:active {
+    color: #b4a8a8;
+    border: 1px solid #b4a8a8;
+    background: #5106ba;
   }
 
   .form-error {

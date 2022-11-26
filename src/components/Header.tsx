@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const Header = () => {
-  // TODO: Add logic to go to users posts
   const { data: session } = useSession();
 
   return (
@@ -23,7 +22,14 @@ const Header = () => {
               </li>
               <li className="mx-4 my-0 inline-block">
                 <div className="my-link text-xl">
-                  <Link href="">{session?.user?.name}'s Account</Link>
+                  <Link
+                    href={{
+                      pathname: "/user/[id]",
+                      query: { id: session?.user?.id },
+                    }}
+                  >
+                    My Account
+                  </Link>
                 </div>
               </li>
             </>

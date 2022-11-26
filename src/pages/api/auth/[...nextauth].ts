@@ -13,11 +13,11 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        session.user.name = user.name;
       }
       return session;
     },
   },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -35,7 +35,6 @@ export const authOptions: NextAuthOptions = {
         },
       },
     }),
-    // ...add more providers here
   ],
 };
 
