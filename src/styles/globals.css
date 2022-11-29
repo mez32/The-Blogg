@@ -68,6 +68,29 @@ main {
     color: rgb(138, 25, 25);
   }
 
+  .toggle-btn__open {
+    border: 1px solid black;
+    color: black;
+    padding: 0.06rem 0.12rem;
+    font-size: 0.65rem;
+    margin-left: 0.25rem;
+    cursor: pointer;
+  }
+
+  .toggle-btn__close {
+    border: 1px solid black;
+    color: black;
+    padding: 0 0.16rem;
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+    cursor: pointer;
+  }
+
+  /* .toggle-btn:hover,
+  .toggle-btn:active {
+    
+  } */
+
   @media (min-width: 47rem) {
     .mobile-wrapper {
       display: none !important;

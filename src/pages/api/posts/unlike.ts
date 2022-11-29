@@ -8,7 +8,7 @@ interface Body {
   postId: string;
 }
 
-export default async function addLike(
+export default async function removeLike(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -26,17 +26,13 @@ export default async function addLike(
   switch (method) {
     case "POST":
       try {
-        const newLike = await prisma.like.create({
-          data: {
-            user: {
-              connect: { id: userId },
-            },
-            post: {
-              connect: { id: postId },
-            },
+        await prisma.like.deleteMany({
+          where: {
+            postId,
+            userId,
           },
         });
-        res.status(201).send(newLike);
+        res.status(200).send({ msg: "Like Deleted" });
       } catch (error) {
         res.status(500).send({ msg: error });
       }

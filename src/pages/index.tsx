@@ -16,6 +16,15 @@ interface Like {
   userId: string;
 }
 
+interface Comment {
+  id: string;
+  postId: string;
+  userId: string;
+  content: string;
+  createdAt: Date;
+  user: User;
+}
+
 interface Posts {
   id: string;
   title: string;
@@ -25,16 +34,19 @@ interface Posts {
   updatedAt?: Date;
   user: User;
   likes: Like[];
+  comments: Comment[];
   _count: {
     likes: number;
+    comments: number;
   };
 }
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
-  console.log(listOfPosts);
+
   useEffect(() => {
     const postsList: Posts[] = JSON.parse(posts);
+    console.log(postsList);
     setListOfPosts(postsList);
   }, []);
 
@@ -62,7 +74,9 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 userId={post.user.id}
                 id={post.id}
                 likes={post.likes}
+                comments={post.comments}
                 numOfLikes={post._count.likes}
+                numOfComments={post._count.comments}
               />
             );
           })}
@@ -82,11 +96,28 @@ export const getStaticProps = async () => {
         },
       },
       likes: true,
+      comments: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
       _count: {
         select: {
           likes: true,
+          comments: true,
         },
       },
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   const newPosts = JSON.stringify(posts);
