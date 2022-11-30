@@ -38,6 +38,8 @@ export default async function getPostsComments(
         });
 
         res.status(200).send(comments);
+
+        break;
       } catch (error) {
         res.status(500).send({ msg: error });
       }

@@ -1,23 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Formik } from "formik";
+import { Comment, User } from "../types/post";
 
 interface Errors {
   comment?: string;
-}
-
-interface User {
-  id: string;
-  name: string | null;
-}
-
-interface Comment {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: Date;
-  user: User;
 }
 
 interface FormProps {
@@ -111,7 +98,11 @@ const NewCommentForm = ({
               >
                 Post
               </button>
-              <button onClick={closeFunc} className="m-2 rounded-lg border p-2">
+              <button
+                onClick={closeFunc}
+                className="cancel-btn m-2 rounded-lg border p-2"
+                type="button"
+              >
                 Cancel
               </button>
             </Form>

@@ -123,6 +123,13 @@ const NewPost = () => {
                     >
                       Post Blogg
                     </button>
+                    <button
+                      className="cancel-btn m-2 rounded-lg border p-2"
+                      onClick={() => router.push("/")}
+                      type="button"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </Form>
               )}

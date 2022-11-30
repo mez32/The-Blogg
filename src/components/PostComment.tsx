@@ -9,7 +9,7 @@ interface CommentProps {
   createdAt: Date;
 }
 
-const Comment = ({ name, content, userId, createdAt }: CommentProps) => {
+const PostComment = ({ name, content, userId, createdAt }: CommentProps) => {
   const date = dayjs(createdAt).format("MMMM D YYYY h:mma").toString();
 
   return (
@@ -31,4 +31,4 @@ const Comment = ({ name, content, userId, createdAt }: CommentProps) => {
   );
 };
 
-export default Comment;
+export default PostComment;

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background-color: #282828;
+  background-color: theme("colors.darkGray");
 }
 
 main {
@@ -26,26 +26,26 @@ main {
     border: 1px solid black;
     padding: 0.5rem;
     border-radius: 8px;
-    background: #5604c8;
+    background: theme("colors.purple");
   }
 
   .login-btn:hover,
   .login-btn:active {
-    color: #b4a8a8;
-    border: 1px solid #b4a8a8;
-    background: #5106ba;
+    color: theme("colors.gray");
+    border: 1px solid theme("colors.gray");
+    background: theme("colors.lightPurple");
   }
 
   .login-btn:disabled {
-    color: #232222;
-    border: 1px solid #2c2929;
+    color: theme("colors.darkGray");
+    border: 1px solid theme("colors.darkGray");
     padding: 0.5rem;
     border-radius: 8px;
-    background: #676363;
+    background: theme("colors.middleGray");
   }
 
   .like-btn {
-    background: #5604c8;
+    background: theme("colors.purple");
     border: 1px solid black;
     color: black;
     font-size: 0.8rem;
@@ -55,17 +55,26 @@ main {
 
   .like-btn:hover,
   .like-btn:active {
-    color: #b4a8a8;
-    border: 1px solid #b4a8a8;
-    background: #5106ba;
+    color: theme("colors.gray");
+    border: 1px solid theme("colors.gray");
+    background: theme("colors.lightPurple");
   }
 
   .form-error {
-    border: 1px solid red;
+    border: 1px solid theme("colors.darkRed");
   }
 
   .error-text {
-    color: rgb(138, 25, 25);
+    color: theme("colors.darkRed");
+  }
+
+  .delete-btn:hover {
+    color: theme("colors.darkRed");
+    text-decoration: underline;
+  }
+
+  .no-btn:hover {
+    text-decoration: underline;
   }
 
   .toggle-btn__open {
@@ -80,16 +89,16 @@ main {
   .toggle-btn__close {
     border: 1px solid black;
     color: black;
-    padding: 0 0.16rem;
+    padding: 0 0.15rem;
     font-size: 0.75rem;
     margin-left: 0.25rem;
     cursor: pointer;
   }
 
-  /* .toggle-btn:hover,
-  .toggle-btn:active {
-    
-  } */
+  .cancel-btn:hover {
+    border-color: theme("colors.middleGray");
+    background-color: theme("colors.middleGray");
+  }
 
   @media (min-width: 47rem) {
     .mobile-wrapper {

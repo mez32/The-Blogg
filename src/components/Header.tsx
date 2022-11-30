@@ -13,6 +13,11 @@ const Header = () => {
 
       <nav className="main-nav inline-block w-[calc(100%-13rem)] text-right align-middle">
         <ul className="m-0 list-none p-0">
+          <li className="mx-4 my-0 inline-block">
+            <div className="my-link text-xl">
+              <Link href={"/about"}>About</Link>
+            </div>
+          </li>
           {session && (
             <>
               <li className="mx-4 my-0 inline-block">

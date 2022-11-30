@@ -3,28 +3,10 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import Comment from "./Comment";
+import PostComment from "./PostComment";
 import NewCommentForm from "./NewCommentForm";
-
-interface User {
-  id: string;
-  name: string | null;
-}
-
-interface Like {
-  id: string;
-  postId: string;
-  userId: string;
-}
-
-interface Comment {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: Date;
-  user: User;
-}
+import { Like, Comment } from "../types/post";
+import { useRouter } from "next/router";
 
 interface PostProps {
   id: string;
@@ -52,16 +34,17 @@ const Post: React.FC<PostProps> = ({
   comments,
 }: PostProps) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
   const [likesCount, setLikesCount] = useState<number>(0);
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [commentsCount, setCommentsCount] = useState<number>(0);
   const [alreadyLiked, setAlreadyLiked] = useState<boolean>(false);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [showNewComment, setShowNewComment] = useState<boolean>(false);
+  const [areYouSure, setAreYouSure] = useState<boolean>(false);
 
   const newDate = dayjs(date).format("MMMM D YYYY h:mma").toString();
-
-  // TODO: Add logic to refresh a single post after a new comment is added by making an API end point to get the updated post, need to set comments in the intial useEffect so that state can be overridden with new data from the endpoint
 
   const handleLike = async (): Promise<void> => {
     if (!session) {
@@ -118,6 +101,23 @@ const Post: React.FC<PostProps> = ({
     setShowNewComment(!showNewComment);
   };
 
+  const deletePostHandler = async (): Promise<void> => {
+    if (!session) {
+      return;
+    }
+
+    const body = {
+      postId: id,
+      userId,
+    };
+    try {
+      const res = await axios.post("/api/posts/delete", body);
+      if (res.status === 200) {
+        router.reload();
+      }
+    } catch (error) {}
+  };
+
   useEffect(() => {
     alreadyLikedFunc();
     setCommentList(comments);
@@ -134,7 +134,7 @@ const Post: React.FC<PostProps> = ({
           By{" "}
           <Link
             className="hover:underline"
-            href={{ pathname: "/user/posts/[id]", query: { userId } }}
+            href={{ pathname: "/user/posts/[id]", query: { id: userId } }}
           >
             {name}
           </Link>
@@ -142,20 +142,48 @@ const Post: React.FC<PostProps> = ({
         <h5 className="text-sm font-medium">{newDate}</h5>
         <hr className="min-w-lg mx-2 my-2 w-auto" />
         <p className="mb-4 break-all text-base">{content}</p>
+        {session?.user?.id === userId &&
+          (!areYouSure ? (
+            <div className="block">
+              <button
+                onClick={() => setAreYouSure(true)}
+                className="delete-btn mb-2"
+              >
+                Delete Post
+              </button>
+            </div>
+          ) : (
+            <div className="block">
+              <div className="mr-1 inline">Are you sure? </div>
+              <button
+                className="delete-btn mr-2 mb-2"
+                onClick={deletePostHandler}
+              >
+                Yes
+              </button>
+              <button
+                className="no-btn mb-2"
+                onClick={() => setAreYouSure(false)}
+              >
+                No
+              </button>
+            </div>
+          ))}
 
         <div className="block">
-          {session && alreadyLiked === false ? (
-            <button onClick={handleLike} className="like-btn mb-2 mr-2">
-              Like
-            </button>
-          ) : (
-            <div
-              onClick={handleUnlike}
-              className="mr-2 ml-1 mb-2 inline-block hover:cursor-pointer hover:underline"
-            >
-              Liked!
-            </div>
-          )}
+          {session &&
+            (alreadyLiked === false ? (
+              <button onClick={handleLike} className="like-btn mb-2 mr-2">
+                Like
+              </button>
+            ) : (
+              <div
+                onClick={handleUnlike}
+                className="mr-2 ml-1 mb-2 inline-block hover:cursor-pointer hover:underline"
+              >
+                Liked!
+              </div>
+            ))}
           <p className="inline">
             {likesCount} {likesCount === 1 ? "like" : "likes"}
           </p>
@@ -207,7 +235,7 @@ const Post: React.FC<PostProps> = ({
           <div>
             {commentList.map((comment) => {
               return (
-                <Comment
+                <PostComment
                   key={comment.id}
                   name={comment.user.name}
                   content={comment.content}

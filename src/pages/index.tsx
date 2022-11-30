@@ -1,52 +1,28 @@
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Pagination from "../components/Pagination";
 import Post from "../components/Post";
 import StartNew from "../components/StartNew";
 import { prisma } from "../server/db/client";
-
-interface User {
-  id: string;
-  name: string | null;
-}
-
-interface Like {
-  id: string;
-  postId: string;
-  userId: string;
-}
-
-interface Comment {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: Date;
-  user: User;
-}
-
-interface Posts {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  userId: string;
-  updatedAt?: Date;
-  user: User;
-  likes: Like[];
-  comments: Comment[];
-  _count: {
-    likes: number;
-    comments: number;
-  };
-}
+import { Posts } from "../types/post";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Finds the indexes of the current 10 pages based on the page number
+  const indexOfLastRecord = currentPage * 10;
+  const indexOfFirstRecord = indexOfLastRecord - 10;
+
+  // Sets the current posts to show based on indexes from above
+  const currentPosts = listOfPosts.slice(indexOfFirstRecord, indexOfLastRecord);
+
+  // Finds the number of pages needed based on number of posts divided by 10
+  const nPages = Math.ceil(listOfPosts.length / 10);
 
   useEffect(() => {
     const postsList: Posts[] = JSON.parse(posts);
-    console.log(postsList);
     setListOfPosts(postsList);
   }, []);
 
@@ -63,7 +39,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
         <StartNew />
         <hr className="min-w-lg m-auto w-11/12 xl:max-w-6xl" />
         <>
-          {listOfPosts.map((post) => {
+          {currentPosts.map((post) => {
             return (
               <Post
                 key={post.id}
@@ -81,6 +57,11 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
             );
           })}
         </>
+        <Pagination
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </main>
     </>
   );
