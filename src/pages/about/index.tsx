@@ -18,18 +18,19 @@ const AboutPage = () => {
             database during development and is all brought up with a single
             command. Authentication is done through NextAuthJS through the
             Create T3 App template and I have Google and Github set up on it to
-            keep things simple for the time being. I didn't use any UI libraries
-            in this project so everything you see is straight HTML and Tailwind
-            all written by me. The entire site's layout and functionality all
-            came from my own mind with no guidance or tutorials being followed
-            as a way to test my knowledge and ability to build a website from
-            scratch and to have a fun project to show off. The site is being
-            hosted on Vercel with a database running on PlanetScale. You can
-            view the repo for this site on GitHub right{" "}
+            keep things simple for the time being. I didn&apost use any UI
+            libraries in this project so everything you see is straight HTML and
+            Tailwind all written by me. The entire site&aposs layout and
+            functionality all came from my own mind with no guidance or
+            tutorials being followed as a way to test my knowledge and ability
+            to build a website from scratch and to have a fun project to show
+            off. The site is being hosted on Vercel with a database running on
+            PlanetScale. You can view the repo for this site on GitHub right{" "}
             <a
               className="hover:underline"
               href="https://github.com/mez32/The-Blogg"
               target="_blank"
+              rel="noreferrer"
             >
               HERE.
             </a>{" "}

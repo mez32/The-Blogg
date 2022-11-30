@@ -6,7 +6,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
-import { GetServerSideProps } from "next";
+import { type GetServerSideProps } from "next";
+import ErrorPage from "next/error";
 
 interface Errors {
   name?: string;
@@ -37,6 +38,10 @@ const UserAccount = ({ name }: PageProps) => {
       setError(true);
     }
   };
+
+  if (!router.isFallback && !name) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <>

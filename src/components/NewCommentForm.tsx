@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Formik } from "formik";
-import { Comment, User } from "../types/post";
+import { type Comment } from "../types/post";
 
 interface Errors {
   comment?: string;

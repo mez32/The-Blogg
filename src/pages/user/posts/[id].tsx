@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
-  GetStaticProps,
-  GetStaticPropsResult,
-  InferGetStaticPropsType,
+  type GetStaticProps,
+  type GetStaticPropsResult,
+  type InferGetStaticPropsType,
 } from "next";
-import { ParsedUrlQuery } from "querystring";
+import { type ParsedUrlQuery } from "querystring";
 import { prisma } from "../../../server/db/client";
 import Head from "next/head";
 import Post from "../../../components/Post";
@@ -12,7 +12,8 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Pagination from "../../../components/Pagination";
-import { Posts } from "../../../types/post";
+import { type Posts } from "../../../types/post";
+import ErrorPage from "next/error";
 
 interface StaticPathParams extends ParsedUrlQuery {
   id: string;
@@ -43,7 +44,11 @@ const ShowPosts = ({
   useEffect(() => {
     const listOfPosts: Posts[] = JSON.parse(posts);
     setPostsList(listOfPosts);
-  }, []);
+  }, [posts]);
+
+  if (!posts && !id) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   if (router.isFallback) {
     return (
@@ -129,17 +134,7 @@ const ShowPosts = ({
 };
 
 export const getStaticPaths = async () => {
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-    },
-  });
-
-  const paths = users.map((user) => ({
-    params: { id: user.id },
-  }));
-
-  return { paths, fallback: true };
+  return { paths: [], fallback: true };
 };
 
 export const getStaticProps: GetStaticProps<

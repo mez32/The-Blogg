@@ -1,13 +1,16 @@
-import { InferGetStaticPropsType } from "next";
+import { type InferGetStaticPropsType } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import Post from "../components/Post";
 import StartNew from "../components/StartNew";
 import { prisma } from "../server/db/client";
-import { Posts } from "../types/post";
+import { type Posts } from "../types/post";
+import ErrorPage from "next/error";
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -24,7 +27,11 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   useEffect(() => {
     const postsList: Posts[] = JSON.parse(posts);
     setListOfPosts(postsList);
-  }, []);
+  }, [posts]);
+
+  if (!router.isFallback && !posts) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <>

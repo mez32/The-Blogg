@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import PostComment from "./PostComment";
 import NewCommentForm from "./NewCommentForm";
-import { Like, Comment } from "../types/post";
+import { type Like, type Comment } from "../types/post";
 import { useRouter } from "next/router";
 
 interface PostProps {
@@ -83,7 +83,7 @@ const Post: React.FC<PostProps> = ({
   };
 
   const alreadyLikedFunc = (): void => {
-    for (let like of likes) {
+    for (const like of likes) {
       if (like.userId === session?.user!.id) {
         return setAlreadyLiked(true);
       }

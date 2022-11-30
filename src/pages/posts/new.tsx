@@ -85,7 +85,7 @@ const NewPost = () => {
                       type="text"
                       name="title"
                       placeholder="Title"
-                      onChange={(e: any): void =>
+                      onChange={(e: React.ChangeEvent<any>): void =>
                         setFieldValue("title", e?.target?.value)
                       }
                       onBlur={handleBlur}
