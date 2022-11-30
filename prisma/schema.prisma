@@ -13,7 +13,7 @@ datasource db {
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
   // Needed for PlanetScale
-  relationMode = "prisma"
+  // relationMode = "prisma
 }
 
 // Necessary for Next auth
@@ -34,7 +34,6 @@ model Account {
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@index([userId])
 }
 
 model Session {
@@ -43,8 +42,6 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
 }
 
 model User {
@@ -79,8 +76,6 @@ model Post {
   updatedAt DateTime  @updatedAt
   likes     Like[]
   comments  Comment[]
-
-  @@index([userId])
 }
 
 model Comment {
@@ -91,9 +86,6 @@ model Comment {
   userId      String
   post        Post        @relation(fields: [postId], references: [id])
   postId      String
-
-  @@index([userId])
-  @@index([postId])
 }
 
 model Like {
@@ -103,7 +95,4 @@ model Like {
   userId    String
   post      Post      @relation(fields: [postId], references: [id])
   postId    String
-
-  @@index([userId])
-  @@index([postId])
 }
