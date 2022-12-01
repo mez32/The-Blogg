@@ -41,7 +41,6 @@ const NewCommentForm = ({
       const res = await axios.post("/api/posts/new-comment", body);
       if (res.status === 201) {
         const comments = await axios.get(`/api/comments/${id}`);
-        console.log(comments.data.length);
         setComments(comments.data);
         setCommentsCount(comments.data.length);
         closeFunc();

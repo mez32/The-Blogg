@@ -105,6 +105,13 @@ const UserAccount = ({ name }: PageProps) => {
                     >
                       Update
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/")}
+                      className="cancel-btn m-2 rounded-lg border p-2"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </Form>
               )}

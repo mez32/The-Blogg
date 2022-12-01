@@ -22,10 +22,9 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const nPages = Math.ceil(listOfPosts.length / 10);
 
   useEffect(() => {
-    console.log(posts);
     const postsList: Posts[] = JSON.parse(posts);
     setListOfPosts(postsList);
-  }, [posts]);
+  }, []);
 
   if (!router.isFallback && !posts) {
     return <ErrorPage statusCode={404} />;
