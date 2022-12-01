@@ -79,27 +79,27 @@ const NewCommentForm = ({
                 <textarea
                   name="comment"
                   id="post-comment"
-                  className="focus:shadow-outline mt-1 h-32 w-full appearance-none rounded focus:outline-none"
+                  className="focus:shadow-outline mt-1 h-32 w-full appearance-none rounded bg-gray-300 p-1 text-gray-600 focus:outline-none"
                   placeholder="Add a new comment..."
                   onChange={handleChange}
                   onBlur={handleBlur}
                 ></textarea>
                 {error && (
-                  <div className="error-text">
-                    There was an error submiting your post
+                  <div className="text-red-700">
+                    There was an error submiting your comment
                   </div>
                 )}
               </div>
               <button
                 type="submit"
-                className="login-btn m-2"
+                className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
                 disabled={!isValid || !dirty}
               >
                 Post
               </button>
               <button
                 onClick={closeFunc}
-                className="cancel-btn m-2 rounded-lg border p-2"
+                className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
                 type="button"
               >
                 Cancel

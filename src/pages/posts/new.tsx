@@ -49,7 +49,7 @@ const NewPost = () => {
       </Head>
       <main>
         <div className="align-center mt-2 flex justify-center p-6">
-          <div className="max-w-2lg block w-full rounded-lg bg-gray p-8 shadow-2xl md:max-w-3xl">
+          <div className="max-w-2lg block w-full rounded-lg bg-gray-900 p-8 shadow-2xl md:max-w-3xl">
             <h2 className="text-center text-3xl">Start your new post here</h2>
             <Formik
               initialValues={initialFormValues}
@@ -79,8 +79,10 @@ const NewPost = () => {
                       Title
                     </label>
                     <input
-                      className={`text-gray-700 focus:shadow-outline block w-full appearance-none rounded py-2 px-3 leading-tight shadow focus:outline-none ${
-                        errors.title && touched.title ? "form-error" : "border"
+                      className={`focus:shadow-outline block w-full appearance-none rounded bg-gray-200 py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none ${
+                        errors.title && touched.title
+                          ? "border border-red-700 "
+                          : "border"
                       }`}
                       type="text"
                       name="title"
@@ -91,7 +93,7 @@ const NewPost = () => {
                       onBlur={handleBlur}
                     />
                     {errors.title && touched.title && (
-                      <div className="error-text">{errors.title}</div>
+                      <div className="text-red-700">{errors.title}</div>
                     )}
                   </div>
                   <div className="mt-4">
@@ -99,10 +101,10 @@ const NewPost = () => {
                       Content
                     </label>
                     <textarea
-                      className={`text-gray-700 focus:shadow-outline block h-64 w-full appearance-none rounded py-2 px-3 leading-tight shadow focus:outline-none ${
+                      className={`focus:shadow-outline block h-64 w-full appearance-none rounded bg-gray-200 py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none ${
                         errors.content && touched.content
-                          ? "form-error"
-                          : "border-red-600"
+                          ? "border border-red-700"
+                          : "border"
                       }`}
                       name="content"
                       placeholder="Add your post content here..."
@@ -112,19 +114,19 @@ const NewPost = () => {
                       onBlur={handleBlur}
                     />
                     {errors.content && touched.content && (
-                      <div className="error-text">{errors.content}</div>
+                      <div className="text-red-700">{errors.content}</div>
                     )}
                   </div>
                   <div className="mt-4 text-center">
                     <button
-                      className="login-btn"
+                      className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
                       type="submit"
                       disabled={!isValid || !dirty}
                     >
                       Post Blogg
                     </button>
                     <button
-                      className="cancel-btn m-2 rounded-lg border p-2"
+                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
                       onClick={() => router.push("/")}
                       type="button"
                     >

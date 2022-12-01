@@ -54,7 +54,7 @@ const UserAccount = ({ name }: PageProps) => {
       </Head>
       <main>
         <div className="align-center mt-2 flex justify-center p-6">
-          <div className="max-w-2lg block w-full rounded-lg bg-gray p-8 shadow-2xl md:max-w-3xl">
+          <div className="max-w-2lg block w-full rounded-lg bg-gray-900 p-8 shadow-2xl md:max-w-3xl">
             <h2 className="text-center text-3xl">Update Your Account</h2>
             <Formik
               initialValues={{ name: name }}
@@ -84,7 +84,7 @@ const UserAccount = ({ name }: PageProps) => {
                       Name
                     </label>
                     <input
-                      className={`text-gray-700 focus:shadow-outline block w-full appearance-none rounded py-2 px-3 leading-tight shadow focus:outline-none ${
+                      className={`focus:shadow-outline block w-full appearance-none rounded py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none ${
                         errors.name && touched.name ? "form-error" : "border"
                       }`}
                       type="text"
@@ -99,7 +99,7 @@ const UserAccount = ({ name }: PageProps) => {
                   </div>
                   <div className="mt-4 text-center">
                     <button
-                      className="login-btn"
+                      className="m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
                       type="submit"
                       disabled={!isValid || !dirty}
                     >
@@ -108,7 +108,7 @@ const UserAccount = ({ name }: PageProps) => {
                     <button
                       type="button"
                       onClick={() => router.push("/")}
-                      className="cancel-btn m-2 rounded-lg border p-2"
+                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
                     >
                       Cancel
                     </button>
@@ -117,7 +117,7 @@ const UserAccount = ({ name }: PageProps) => {
               )}
             </Formik>
             {error && (
-              <div className="error-text mt-4 text-center">
+              <div className="mt-4 text-center text-red-700">
                 There was an error submiting your post
               </div>
             )}

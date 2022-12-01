@@ -54,11 +54,11 @@ const ShowPosts = ({
     return (
       <main>
         <div className="mt-16 flex justify-center p-6">
-          <div className="block max-w-lg rounded-lg bg-gray p-8 text-center shadow-2xl md:max-w-3xl">
+          <div className="bg-gray block max-w-lg rounded-lg p-8 text-center shadow-2xl md:max-w-3xl">
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="mr-2 h-16 w-16 animate-spin fill-purple text-middleGray"
+                className="fill-purple mr-2 h-16 w-16 animate-spin text-middleGray"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,13 +92,15 @@ const ShowPosts = ({
       </Head>
       <main>
         <div className="mt-2 flex justify-center p-6">
-          <div className="block max-w-lg rounded-lg bg-gray p-8 text-center shadow-2xl md:max-w-3xl">
+          <div className="block max-w-lg rounded-lg bg-gray-900 p-8 text-center shadow-2xl md:max-w-3xl">
             <h2 className="mb-4 text-3xl font-medium leading-tight">
               {`${postsList[0]?.user.name}'s Posts`}
             </h2>
             {session?.user?.id === id && (
               <Link href="/posts/new">
-                <button className="login-btn">Create a new post</button>
+                <button className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300">
+                  Create a new post
+                </button>
               </Link>
             )}
           </div>

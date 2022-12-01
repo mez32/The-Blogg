@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: theme("colors.darkGray");
+  background-color: #27272a;
+  color: #e5e7eb;
 }
 
 main {
@@ -12,31 +13,7 @@ main {
 }
 
 @layer base {
-  .my-link a {
-    color: black;
-  }
-
-  .my-link a:hover,
-  .my-link a:active {
-    color: white;
-  }
-
-  .login-btn {
-    color: black;
-    border: 1px solid black;
-    padding: 0.5rem;
-    border-radius: 8px;
-    background: theme("colors.purple");
-  }
-
-  .login-btn:hover,
-  .login-btn:active {
-    color: theme("colors.gray");
-    border: 1px solid theme("colors.gray");
-    background: theme("colors.lightPurple");
-  }
-
-  .login-btn:disabled {
+  .btn:disabled {
     color: theme("colors.darkGray");
     border: 1px solid theme("colors.darkGray");
     padding: 0.5rem;
@@ -44,42 +21,7 @@ main {
     background: theme("colors.middleGray");
   }
 
-  .like-btn {
-    background: theme("colors.purple");
-    border: 1px solid black;
-    color: black;
-    font-size: 0.8rem;
-    border-radius: 8px;
-    padding: 0.4rem;
-  }
-
-  .like-btn:hover,
-  .like-btn:active {
-    color: theme("colors.gray");
-    border: 1px solid theme("colors.gray");
-    background: theme("colors.lightPurple");
-  }
-
-  .form-error {
-    border: 1px solid theme("colors.darkRed");
-  }
-
-  .error-text {
-    color: theme("colors.darkRed");
-  }
-
-  .delete-btn:hover {
-    color: theme("colors.darkRed");
-    text-decoration: underline;
-  }
-
-  .no-btn:hover {
-    text-decoration: underline;
-  }
-
   .toggle-btn__open {
-    border: 1px solid black;
-    color: black;
     padding: 0.06rem 0.12rem;
     font-size: 0.65rem;
     margin-left: 0.25rem;
@@ -87,17 +29,10 @@ main {
   }
 
   .toggle-btn__close {
-    border: 1px solid black;
-    color: black;
     padding: 0 0.15rem;
     font-size: 0.75rem;
     margin-left: 0.25rem;
     cursor: pointer;
-  }
-
-  .cancel-btn:hover {
-    border-color: theme("colors.middleGray");
-    background-color: theme("colors.middleGray");
   }
 
   @media (min-width: 47rem) {
@@ -107,30 +42,18 @@ main {
   }
 
   @media (max-width: 47rem) {
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
     .main-nav {
       display: none !important;
-    }
-
-    .toggle-button {
-      width: 3rem;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding-top: 0;
-      padding-bottom: 0;
-      vertical-align: middle;
-    }
-
-    .toggle-button:focus {
-      outline: none;
-    }
-
-    .toggle-button__bar {
-      width: 100%;
-      height: 0.2rem;
-      background: black;
-      display: block;
-      margin: 0.6rem 0;
     }
   }
 }

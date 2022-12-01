@@ -26,7 +26,7 @@ const Pagination = ({
         <li>
           <a
             href="#"
-            className="text-gray-500 border-gray-300 ml-0 block rounded-l-lg border bg-gray px-3 py-2 leading-tight"
+            className="ml-0 block rounded-l-lg border border-gray-200 bg-gray-900 px-3 py-2 leading-tight text-gray-200 hover:border-gray-400 hover:text-gray-400"
             onClick={prevPage}
           >
             <span className="sr-only">Previous</span>
@@ -50,8 +50,8 @@ const Pagination = ({
             <a
               className={`${
                 currentPage === pgNumber
-                  ? "z-10 border bg-lightPurple px-3 py-2 leading-tight"
-                  : "text-gray-500 border-gray-300 border bg-gray px-3 py-2 leading-tight"
+                  ? "hover z-10 border border-gray-300 bg-purple-700 px-3 py-2 leading-tight"
+                  : "border border-gray-300 px-3 py-2 leading-tight hover:border-gray-400 hover:text-gray-400"
               }`}
               onClick={() => setCurrentPage(pgNumber)}
               href="#"
@@ -63,7 +63,7 @@ const Pagination = ({
         <li>
           <a
             href="#"
-            className="border-gray-300 block rounded-r-lg border bg-gray px-3 py-2 leading-tight"
+            className="block rounded-r-lg border border-gray-200 bg-gray-900 px-3 py-2 leading-tight text-gray-200 hover:border-gray-400 hover:text-gray-400"
             onClick={nextPage}
           >
             <span className="sr-only">Next</span>

@@ -127,13 +127,12 @@ const Post: React.FC<PostProps> = ({
 
   return (
     <div className="mt-2 flex justify-center p-5">
-      <div className="min-w-lg block w-11/12 rounded-lg bg-gray p-8 shadow-2xl  xl:max-w-6xl">
+      <div className="min-w-lg block w-11/12 rounded-lg bg-gray-900 p-8 shadow-2xl xl:max-w-6xl">
         <h2 className="mb-2 text-3xl font-medium leading-tight">{title}</h2>
-
         <h5 className="text-md font-medium">
           By{" "}
           <Link
-            className="hover:underline"
+            className="hover:text-gray-300 hover:underline"
             href={{ pathname: "/user/posts/[id]", query: { id: userId } }}
           >
             {name}
@@ -147,7 +146,7 @@ const Post: React.FC<PostProps> = ({
             <div className="block">
               <button
                 onClick={() => setAreYouSure(true)}
-                className="delete-btn mb-2"
+                className="mb-2 hover:text-red-700 hover:underline"
               >
                 Delete Post
               </button>
@@ -156,13 +155,13 @@ const Post: React.FC<PostProps> = ({
             <div className="block">
               <div className="mr-1 inline">Are you sure? </div>
               <button
-                className="delete-btn mr-2 mb-2"
+                className="mr-2 mb-2 hover:text-red-700 hover:underline"
                 onClick={deletePostHandler}
               >
                 Yes
               </button>
               <button
-                className="no-btn mb-2"
+                className="mb-2 hover:text-gray-300 hover:underline"
                 onClick={() => setAreYouSure(false)}
               >
                 No
@@ -173,7 +172,10 @@ const Post: React.FC<PostProps> = ({
         <div className="block">
           {session &&
             (alreadyLiked === false ? (
-              <button onClick={handleLike} className="like-btn mb-2 mr-2">
+              <button
+                onClick={handleLike}
+                className="mb-2 mr-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+              >
                 Like
               </button>
             ) : (
@@ -190,27 +192,30 @@ const Post: React.FC<PostProps> = ({
         </div>
         <div className="block align-middle">
           {session && (
-            <button onClick={newCommentHandler} className="like-btn mr-2">
+            <button
+              onClick={newCommentHandler}
+              className="mr-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+            >
               Comment
             </button>
           )}
           <h5
             onClick={() => showCommentsHandler()}
-            className="mt-2 inline-block cursor-pointer text-sm font-medium hover:underline"
+            className="mt-2 inline-block cursor-pointer text-sm font-medium hover:text-gray-300 hover:underline"
           >
             {commentsCount} {commentsCount === 1 ? "comment" : "comments"}
           </h5>
           {!showComments ? (
             <p
               onClick={() => showCommentsHandler()}
-              className="toggle-btn__open inline"
+              className="toggle-btn__open inline border border-gray-200 text-gray-200"
             >
               +
             </p>
           ) : (
             <p
               onClick={() => showCommentsHandler()}
-              className="toggle-btn__close inline"
+              className="toggle-btn__close inline border border-gray-200 text-gray-200"
             >
               -
             </p>
