@@ -29,7 +29,7 @@ const ShowPosts = ({
   id,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [postsList, setPostsList] = useState<Posts[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -44,16 +44,16 @@ const ShowPosts = ({
   useEffect(() => {
     const listOfPosts: Posts[] = JSON.parse(posts);
     setPostsList(listOfPosts);
-  }, [posts]);
+  }, []);
 
   if (!posts && !id) {
     return <ErrorPage statusCode={404} />;
   }
 
-  if (router.isFallback) {
+  if (router.isFallback || status === "loading") {
     return (
       <main>
-        <div className="mt-2 flex justify-center p-6">
+        <div className="mt-16 flex justify-center p-6">
           <div className="block max-w-lg rounded-lg bg-gray p-8 text-center shadow-2xl md:max-w-3xl">
             <div role="status">
               <svg
@@ -155,7 +155,19 @@ export const getStaticProps: GetStaticProps<
         },
       },
       likes: true,
-      comments: true,
+      comments: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
       _count: {
         select: {
           likes: true,

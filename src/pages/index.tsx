@@ -14,17 +14,15 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Finds the indexes of the current 10 pages based on the page number
   const indexOfLastRecord = currentPage * 10;
   const indexOfFirstRecord = indexOfLastRecord - 10;
 
-  // Sets the current posts to show based on indexes from above
   const currentPosts = listOfPosts.slice(indexOfFirstRecord, indexOfLastRecord);
 
-  // Finds the number of pages needed based on number of posts divided by 10
   const nPages = Math.ceil(listOfPosts.length / 10);
 
   useEffect(() => {
+    console.log(posts);
     const postsList: Posts[] = JSON.parse(posts);
     setListOfPosts(postsList);
   }, [posts]);
