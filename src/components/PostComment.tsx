@@ -18,7 +18,7 @@ const PostComment = ({ name, content, userId, createdAt }: CommentProps) => {
         <h5 className="text-base font-medium">
           <Link
             className="hover:underline"
-            href={{ pathname: "/user/posts/[id]", query: { userId } }}
+            href={{ pathname: "/user/posts/[id]", query: { id: userId } }}
           >
             {name}
           </Link>{" "}

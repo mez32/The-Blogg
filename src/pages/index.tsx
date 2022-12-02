@@ -1,4 +1,7 @@
-import { type InferGetStaticPropsType } from "next";
+import {
+  type InferGetStaticPropsType,
+  type InferGetServerSidePropsType,
+} from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -9,7 +12,9 @@ import { prisma } from "../server/db/client";
 import { type Posts } from "../types/post";
 import ErrorPage from "next/error";
 
-const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Home = ({
+  posts,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const [listOfPosts, setListOfPosts] = useState<Posts[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -71,7 +76,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const posts = await prisma.post.findMany({
     include: {
       user: {

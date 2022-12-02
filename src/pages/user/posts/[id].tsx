@@ -14,22 +14,21 @@ import { useRouter } from "next/router";
 import Pagination from "../../../components/Pagination";
 import { type Posts } from "../../../types/post";
 import ErrorPage from "next/error";
+import axios from "axios";
 
 interface StaticPathParams extends ParsedUrlQuery {
   id: string;
 }
 
 interface PageProps {
-  posts: string;
   id: string;
 }
 
-const ShowPosts = ({
-  posts,
-  id,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const ShowPosts = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
   const [postsList, setPostsList] = useState<Posts[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -42,23 +41,31 @@ const ShowPosts = ({
   const nPages = Math.ceil(postsList.length / 10);
 
   useEffect(() => {
-    const listOfPosts: Posts[] = JSON.parse(posts);
-    setPostsList(listOfPosts);
+    const getPageInfo = async () => {
+      setLoading(true);
+      const resName = await axios.get(`/api/user/${id}`);
+      setName(resName.data.name);
+      const resPosts = await axios.get(`/api/user/posts/${id}`);
+      setPostsList(resPosts.data);
+      setLoading(false);
+    };
+
+    getPageInfo();
   }, []);
 
-  if (!posts && !id) {
+  if (!id) {
     return <ErrorPage statusCode={404} />;
   }
 
-  if (router.isFallback || status === "loading") {
+  if (router.isFallback || status === "loading" || loading) {
     return (
       <main>
         <div className="mt-16 flex justify-center p-6">
-          <div className="bg-gray block max-w-lg rounded-lg p-8 text-center shadow-2xl md:max-w-3xl">
+          <div className="block max-w-lg rounded-lg bg-gray-900 p-8 text-center shadow-2xl md:max-w-3xl">
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="fill-purple mr-2 h-16 w-16 animate-spin text-middleGray"
+                className="mr-2 h-16 w-16 animate-spin fill-purple-700 text-gray-700"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +91,7 @@ const ShowPosts = ({
   return (
     <>
       <Head>
-        <title>{`The Blogg - ${postsList[0]?.user.name}'s Posts`}</title>
+        <title>{`The Blogg - ${name}'s Posts`}</title>
         <meta
           name="description"
           content="The Blogg - A place to have your thoughts seen"
@@ -94,7 +101,7 @@ const ShowPosts = ({
         <div className="mt-2 flex justify-center p-6">
           <div className="block max-w-lg rounded-lg bg-gray-900 p-8 text-center shadow-2xl md:max-w-3xl">
             <h2 className="mb-4 text-3xl font-medium leading-tight">
-              {`${postsList[0]?.user.name}'s Posts`}
+              {`${name}'s Posts`}
             </h2>
             {session?.user?.id === id && (
               <Link href="/posts/new">
@@ -107,23 +114,33 @@ const ShowPosts = ({
         </div>
         <hr className="min-w-lg m-auto w-11/12 xl:max-w-6xl" />
         <>
-          {currentPosts.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                title={post.title}
-                content={post.content}
-                date={post.createdAt}
-                name={post.user.name!}
-                id={post.id}
-                likes={post.likes}
-                comments={post.comments}
-                userId={id}
-                numOfLikes={post._count.likes}
-                numOfComments={post._count.comments}
-              />
-            );
-          })}
+          {currentPosts.length === 0 ? (
+            <div className="mt-2 flex justify-center p-6">
+              <div className="block max-w-lg rounded-lg bg-gray-900 p-8 text-center shadow-2xl md:max-w-3xl">
+                <h2 className="mb-4 text-3xl font-medium leading-tight">
+                  {name} has no posts yet!
+                </h2>
+              </div>
+            </div>
+          ) : (
+            currentPosts.map((post) => {
+              return (
+                <Post
+                  key={post.id}
+                  title={post.title}
+                  content={post.content}
+                  date={post.createdAt}
+                  name={post.user.name!}
+                  id={post.id}
+                  likes={post.likes}
+                  comments={post.comments}
+                  userId={id}
+                  numOfLikes={post._count.likes}
+                  numOfComments={post._count.comments}
+                />
+              );
+            })
+          )}
         </>
         <Pagination
           nPages={nPages}
@@ -136,7 +153,11 @@ const ShowPosts = ({
 };
 
 export const getStaticPaths = async () => {
-  return { paths: [], fallback: true };
+  const users = await prisma.user.findMany();
+
+  const paths = users.map((user) => ({ params: { id: user.id } }));
+
+  return { paths, fallback: true };
 };
 
 export const getStaticProps: GetStaticProps<
@@ -145,50 +166,11 @@ export const getStaticProps: GetStaticProps<
 > = async ({ params }): Promise<GetStaticPropsResult<any>> => {
   const { id: userId } = params as StaticPathParams;
 
-  const postsList = await prisma.post.findMany({
-    where: {
-      userId,
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-          id: true,
-        },
-      },
-      likes: true,
-      comments: {
-        include: {
-          user: {
-            select: {
-              name: true,
-              id: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      },
-      _count: {
-        select: {
-          likes: true,
-          comments: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const posts = JSON.stringify(postsList);
-
   return {
     props: {
-      posts,
       id: userId,
     },
+    revalidate: 5,
   };
 };
 

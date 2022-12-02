@@ -140,7 +140,7 @@ const Post: React.FC<PostProps> = ({
         </h5>
         <h5 className="text-sm font-medium">{newDate}</h5>
         <hr className="min-w-lg mx-2 my-2 w-auto" />
-        <p className="mb-4 break-all text-base">{content}</p>
+        <p className="mb-4 break-words text-base">{content}</p>
         {session?.user?.id === userId &&
           (!areYouSure ? (
             <div className="block">
