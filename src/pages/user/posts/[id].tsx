@@ -51,7 +51,7 @@ const ShowPosts = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
     };
 
     getPageInfo();
-  }, []);
+  }, [id]);
 
   if (!id) {
     return <ErrorPage statusCode={404} />;
