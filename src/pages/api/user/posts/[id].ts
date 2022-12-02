@@ -42,7 +42,7 @@ export default async function getPosts(
                 },
               },
               orderBy: {
-                createdAt: "desc",
+                createdAt: "asc",
               },
             },
             _count: {

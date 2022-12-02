@@ -96,7 +96,7 @@ export const getServerSideProps = async () => {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
       },
       _count: {
