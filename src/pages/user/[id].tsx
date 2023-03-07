@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { type GetServerSideProps } from "next";
 import ErrorPage from "next/error";
@@ -27,7 +27,7 @@ const UserAccount = ({ name }: PageProps) => {
   const [error, setError] = useState<boolean>(false);
 
   const submitForm = async (values: FormValues): Promise<void> => {
-    const body = { userId: session?.user!.id, ...values };
+    const body = { userId: session?.user?.id, ...values };
 
     try {
       const response = await axios.patch("/api/user/update", body);
@@ -99,7 +99,7 @@ const UserAccount = ({ name }: PageProps) => {
                   </div>
                   <div className="mt-4 text-center">
                     <button
-                      className="m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                      className="m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
                       type="submit"
                       disabled={!isValid || !dirty}
                     >
@@ -108,7 +108,7 @@ const UserAccount = ({ name }: PageProps) => {
                     <button
                       type="button"
                       onClick={() => router.push("/")}
-                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
+                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400 active:scale-90"
                     >
                       Cancel
                     </button>
@@ -118,7 +118,7 @@ const UserAccount = ({ name }: PageProps) => {
             </Formik>
             {error && (
               <div className="mt-4 text-center text-red-700">
-                There was an error submiting your post
+                There was an error submitting your post
               </div>
             )}
           </div>
@@ -129,11 +129,7 @@ const UserAccount = ({ name }: PageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   if (!session) {
     return {
@@ -146,7 +142,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      name: session.user!.name,
+      name: session.user?.name,
     },
   };
 };

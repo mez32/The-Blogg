@@ -105,7 +105,7 @@ const ShowPosts = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
             </h2>
             {session?.user?.id === id && (
               <Link href="/posts/new">
-                <button className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300">
+                <button className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90">
                   Create a new post
                 </button>
               </Link>
@@ -130,7 +130,7 @@ const ShowPosts = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
                   title={post.title}
                   content={post.content}
                   date={post.createdAt}
-                  name={post.user.name!}
+                  name={post.user.name || "Anon"}
                   id={post.id}
                   likes={post.likes}
                   comments={post.comments}

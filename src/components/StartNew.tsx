@@ -13,13 +13,13 @@ const StartNew: React.FC = () => {
         </h2>
         {session ? (
           <Link href="/posts/new">
-            <button className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300">
+            <button className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90">
               New Post
             </button>
           </Link>
         ) : (
           <button
-            className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+            className="m-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
             onClick={() => signIn()}
           >
             Have to login first

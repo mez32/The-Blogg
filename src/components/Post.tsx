@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -82,13 +82,13 @@ const Post: React.FC<PostProps> = ({
     }
   };
 
-  const alreadyLikedFunc = (): void => {
+  const alreadyLikedFunc = useCallback(() => {
     for (const like of likes) {
-      if (like.userId === session?.user!.id) {
+      if (like.userId === session?.user?.id) {
         return setAlreadyLiked(true);
       }
     }
-  };
+  }, [likes, session]);
 
   const showCommentsHandler = (value?: boolean): void => {
     if (value) {
@@ -123,7 +123,7 @@ const Post: React.FC<PostProps> = ({
     setCommentList(comments);
     setLikesCount(numOfLikes);
     setCommentsCount(numOfComments);
-  }, [status]);
+  }, [alreadyLikedFunc, comments, numOfComments, numOfLikes, status]);
 
   return (
     <div className="mt-2 flex justify-center p-5">
@@ -170,35 +170,27 @@ const Post: React.FC<PostProps> = ({
           ))}
 
         <div className="block">
+          <p className="inline">
+            {likesCount} {likesCount === 1 ? "like" : "likes"}
+          </p>
           {session &&
             (alreadyLiked === false ? (
               <button
                 onClick={handleLike}
-                className="mb-2 mr-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                className="mb-2 ml-2 rounded-lg border border-gray-200 bg-purple-700 p-2 duration-300 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
               >
                 Like
               </button>
             ) : (
-              <div
+              <button
                 onClick={handleUnlike}
-                className="mr-2 ml-1 mb-2 inline-block hover:cursor-pointer hover:underline"
+                className="mb-2 ml-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
               >
                 Liked!
-              </div>
+              </button>
             ))}
-          <p className="inline">
-            {likesCount} {likesCount === 1 ? "like" : "likes"}
-          </p>
         </div>
         <div className="block align-middle">
-          {session && (
-            <button
-              onClick={newCommentHandler}
-              className="mr-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
-            >
-              Comment
-            </button>
-          )}
           <h5
             onClick={() => showCommentsHandler()}
             className="mt-2 inline-block cursor-pointer text-sm font-medium hover:text-gray-300 hover:underline"
@@ -219,6 +211,14 @@ const Post: React.FC<PostProps> = ({
             >
               -
             </p>
+          )}
+          {session && (
+            <button
+              onClick={newCommentHandler}
+              className="ml-2 rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
+            >
+              Comment
+            </button>
           )}
         </div>
         {showNewComment && (

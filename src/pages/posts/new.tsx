@@ -26,7 +26,7 @@ const NewPost = () => {
   };
 
   const submitForm = async (values: FormValues): Promise<void> => {
-    const body = { userId: session?.user!.id, ...values };
+    const body = { userId: session?.user?.id, ...values };
 
     try {
       const response = await axios.post("/api/posts/new", body);
@@ -87,9 +87,9 @@ const NewPost = () => {
                       type="text"
                       name="title"
                       placeholder="Title"
-                      onChange={(e: React.ChangeEvent<any>): void =>
-                        setFieldValue("title", e?.target?.value)
-                      }
+                      onChange={(
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ): void => setFieldValue("title", e.target.value)}
                       onBlur={handleBlur}
                     />
                     {errors.title && touched.title && (
@@ -108,9 +108,9 @@ const NewPost = () => {
                       }`}
                       name="content"
                       placeholder="Add your post content here..."
-                      onChange={(e): void =>
-                        setFieldValue("content", e?.target?.value)
-                      }
+                      onChange={(
+                        e: React.ChangeEvent<HTMLTextAreaElement>
+                      ): void => setFieldValue("content", e.target.value)}
                       onBlur={handleBlur}
                     />
                     {errors.content && touched.content && (
@@ -119,14 +119,14 @@ const NewPost = () => {
                   </div>
                   <div className="mt-4 text-center">
                     <button
-                      className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                      className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
                       type="submit"
                       disabled={!isValid || !dirty}
                     >
                       Post Blogg
                     </button>
                     <button
-                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
+                      className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400 active:scale-90"
                       onClick={() => router.push("/")}
                       type="button"
                     >
@@ -138,7 +138,7 @@ const NewPost = () => {
             </Formik>
             {error && (
               <div className="error-text mt-4 text-center">
-                There was an error submiting your post
+                There was an error submitting your post
               </div>
             )}
           </div>

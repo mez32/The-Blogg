@@ -17,21 +17,21 @@ const Header = () => {
         <nav className="main-nav inline-block w-[calc(100%-13rem)] text-right align-middle">
           <ul className="m-0 list-none p-0">
             <li className="mx-4 my-0 inline-block">
-              <div className="text-xl hover:text-gray-300">
+              <div className="text-xl hover:text-gray-300 active:scale-90">
                 <Link href={"/about"}>About</Link>
               </div>
             </li>
             {session && (
               <>
                 <li className="mx-4 my-0 inline-block">
-                  <div className="text-xl hover:text-gray-300">
+                  <div className="text-xl hover:text-gray-300 active:scale-90">
                     <Link href={`/user/posts/${session.user?.id}`}>
                       My Posts
                     </Link>
                   </div>
                 </li>
                 <li className="mx-4 my-0 inline-block">
-                  <div className="text-xl hover:text-gray-300">
+                  <div className="text-xl hover:text-gray-300 active:scale-90">
                     <Link
                       href={{
                         pathname: "/user/[id]",
@@ -49,7 +49,7 @@ const Header = () => {
               {!session ? (
                 <div className="text-xl">
                   <button
-                    className="rounded-lg border border-gray-200 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                    className="rounded-lg border border-gray-200 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
                     onClick={() => signIn()}
                   >
                     Login / Sign Up
@@ -58,7 +58,7 @@ const Header = () => {
               ) : (
                 <div className="text-xl">
                   <button
-                    className="rounded-lg border border-gray-200 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                    className="rounded-lg border border-gray-200 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
                     onClick={() => signOut()}
                   >
                     Logout

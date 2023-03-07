@@ -1,7 +1,4 @@
-import {
-  type InferGetStaticPropsType,
-  type InferGetServerSidePropsType,
-} from "next";
+import { type InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -29,7 +26,7 @@ const Home = ({
   useEffect(() => {
     const postsList: Posts[] = JSON.parse(posts);
     setListOfPosts(postsList);
-  }, []);
+  }, [posts]);
 
   if (!router.isFallback && !posts) {
     return <ErrorPage statusCode={404} />;
@@ -55,7 +52,7 @@ const Home = ({
                 title={post.title}
                 content={post.content}
                 date={post.createdAt}
-                name={post.user.name!}
+                name={post.user.name || "Anon"}
                 userId={post.user.id}
                 id={post.id}
                 likes={post.likes}

@@ -86,20 +86,20 @@ const NewCommentForm = ({
                 ></textarea>
                 {error && (
                   <div className="text-red-700">
-                    There was an error submiting your comment
+                    There was an error submitting your comment
                   </div>
                 )}
               </div>
               <button
                 type="submit"
-                className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300"
+                className="btn m-2 cursor-pointer rounded-lg border border-gray-200 bg-purple-700 p-2 hover:border-gray-300 hover:bg-purple-800 hover:text-gray-300 active:scale-90"
                 disabled={!isValid || !dirty}
               >
                 Post
               </button>
               <button
                 onClick={closeFunc}
-                className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400"
+                className="m-2 rounded-lg border border-gray-200 p-2 hover:border-gray-400 hover:text-gray-400 active:scale-90"
                 type="button"
               >
                 Cancel
